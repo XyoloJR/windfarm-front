@@ -5,11 +5,11 @@ import WindFarmTree from './components/WindFarmTree.vue'
 
 const loaded = ref(false)
 
-const store = useWindFarmStore()
+const { loadFarmTree } = useWindFarmStore()
 
-function getWindFarmTree() {
-  if (!loaded.value) {
-    store.loadFarmTree().then(() => {
+function getWindFarmTree(refresh: boolean) {
+  if (!loaded.value || refresh) {
+    loadFarmTree().then(() => {
       loaded.value = true
     })
   }
@@ -26,8 +26,8 @@ function getWindFarmTree() {
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <WindFarmTree v-if="loaded"/>
-  <button v-else @click="getWindFarmTree">load wind farm data</button>
+  <WindFarmTree v-if="loaded" @refresh="getWindFarmTree(true)"/>
+  <button v-else @click="getWindFarmTree(false)">load wind farm data</button>
 </template>
 
 <style scoped>
