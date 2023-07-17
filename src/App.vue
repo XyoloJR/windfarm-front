@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import { useWindFarmStore } from './stores/windFarm.ts'
+import WindFarmTree from './components/WindFarmTree.vue'
+
+const loaded = ref(false)
+
+const store = useWindFarmStore()
+
+function getWindFarmTree() {
+  if (!loaded.value) {
+    store.loadFarmTree().then(() => {
+      loaded.value = true
+    })
+  }
+}
+
 </script>
 
 <template>
@@ -11,7 +26,8 @@ import HelloWorld from './components/HelloWorld.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <WindFarmTree v-if="loaded"/>
+  <button v-else @click="getWindFarmTree">load wind farm data</button>
 </template>
 
 <style scoped>
