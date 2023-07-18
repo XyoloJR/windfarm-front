@@ -27,5 +27,8 @@ const { farmTree } = storeToRefs(store)
 </template>
 
 <style scoped>
-
+main {
+  margin: auto;
+  width: 50vw;
+}
 </style>
