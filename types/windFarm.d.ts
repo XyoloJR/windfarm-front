@@ -11,6 +11,6 @@ export interface TreeItem {
 
 export interface WindFarmStoreState {
   farmTree: TreeItem[];
-  items: null | Record<string, TreeItem>;
+  items: Record<string, TreeItem>;
   selectionType: null | ItemType
 }
