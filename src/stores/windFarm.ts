@@ -11,7 +11,8 @@ export const useWindFarmStore = defineStore('windFarm', {
   state: (): WindFarmStoreState => {
     return {
       farmTree: [],
-      items: null
+      items: null,
+      selectionType: null,
     }
   },
   actions: {
@@ -41,13 +42,27 @@ export const useWindFarmStore = defineStore('windFarm', {
         this.mapTreeItem(item.children[i])
       }
     },
-    selectItem(itemId: string, selected: boolean) {
+    selectItem(itemId: string, newState: boolean) {
       const item = this.items[itemId] as TreeItem
-      item.selected = selected
+      if (!this.selectionType) {
+        this.selectionType = item.type
+      }
+      item.selected = newState
+    },
+    selectDeepItem(itemId: string, newState: boolean) {
+      const item = this.items[itemId] as TreeItem
+      item.selected = newState
 
       const iMax = item.children.length
       for (let i = 0; i < iMax; i++) {
-        this.selectItem(item.children[i].id, selected)
+        this.selectDeepItem(item.children[i].id, newState)
+      }
+    },
+    clearSelection() {
+      this.selectionType = null
+      const iMax = this.farmTree.length
+      for (let i = 0; i < iMax; i++) {
+        this.selectDeepItem(this.farmTree[i].id, false)
       }
     }
   },
