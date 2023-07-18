@@ -14,9 +14,10 @@ export const useWindFarmStore = defineStore('windFarm', {
       items: null
     }
   },
-  // could also be defined as
-  // state: () => ({ count: 0 })
   actions: {
+    expendItem(itemId: string, nextState: boolean) {
+      this.items[itemId].expended = nextState
+    },
     loadFarmTree() {
       return publicApi.get('tree').then(response => {
         this.farmTree = response.data
@@ -45,7 +46,6 @@ export const useWindFarmStore = defineStore('windFarm', {
       item.selected = selected
 
       const iMax = item.children.length
-      console.log(item.name, item.children)
       for (let i = 0; i < iMax; i++) {
         this.selectItem(item.children[i].id, selected)
       }
