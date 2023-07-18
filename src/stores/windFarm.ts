@@ -20,6 +20,7 @@ export const useWindFarmStore = defineStore('windFarm', {
       this.items[itemId].expended = nextState
     },
     loadFarmTree() {
+      this.$reset()
       return publicApi.get('tree').then(response => {
         this.farmTree = response.data
         this.items = {}
